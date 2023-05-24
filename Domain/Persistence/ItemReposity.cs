@@ -2,7 +2,8 @@
 
 namespace bootcamp_store_backend.Domain.Persistence
 {
-    public interface IItemReposity:IGenericRepository<Item>
+    public interface IItemReposity : IGenericRepository<Item>
     {
+        List<Item> GetByCategoryId(long categoryId);
     }
 }

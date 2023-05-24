@@ -10,5 +10,11 @@ namespace bootcamp_store_backend.Application.Services
         public ItemService(IItemReposity repository, IMapper mapper) : base(repository, mapper)
         {
         }
+
+        public List<ItemDto> GetAllByCategoryId(long categoryId)
+        {
+            var items = ((IItemReposity)_repository).GetByCategoryId(categoryId);
+            return _mapper.Map<List<ItemDto>>(items);
+        }
     }
 }
