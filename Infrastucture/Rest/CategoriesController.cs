@@ -20,7 +20,7 @@ namespace bootcamp_store_backend.Infrastucture.Rest
         [Produces("application/json")]
         public ActionResult<IEnumerable<CategoryDto>> GetCategories()
         {
-            var categories = _categoryService.GetAllCategories();
+            var categories = _categoryService.GetAll();
             return Ok(categories);
         }
 
@@ -30,7 +30,7 @@ namespace bootcamp_store_backend.Infrastucture.Rest
         {
             try
             {
-                CategoryDto categoryDto = _categoryService.GetCategory(id);
+                CategoryDto categoryDto = _categoryService.Get(id);
                 return Ok(categoryDto);
             }
             catch (ElementNotFoundException)
@@ -45,7 +45,7 @@ namespace bootcamp_store_backend.Infrastucture.Rest
         public ActionResult<CategoryDto> InsertCategory(CategoryDto categoryDto)
         {
             if (categoryDto == null) return BadRequest();
-            categoryDto = _categoryService.InsertCategory(categoryDto);
+            categoryDto = _categoryService.Insert(categoryDto);
             return CreatedAtAction(nameof(GetCategory), new { id = categoryDto.Id }, categoryDto);
         }
 
@@ -55,7 +55,7 @@ namespace bootcamp_store_backend.Infrastucture.Rest
         public ActionResult<CategoryDto> UpdateCategory(CategoryDto categoryDto)
         {
             if (categoryDto == null) return BadRequest();
-            categoryDto = _categoryService.UpdateCategory(categoryDto);
+            categoryDto = _categoryService.Update(categoryDto);
             return Ok(categoryDto);
         }
 
@@ -64,7 +64,7 @@ namespace bootcamp_store_backend.Infrastucture.Rest
         {
             try
             {
-                _categoryService.DeleteCategory(id);
+                _categoryService.Delete(id);
                 return NoContent();
             }
             catch (ElementNotFoundException)
