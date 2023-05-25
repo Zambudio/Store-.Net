@@ -3,6 +3,7 @@ using bootcamp_store_backend.Application.Services;
 using bootcamp_store_backend.Domain.Persistence;
 using bootcamp_store_backend.Infraestructure.Persistence;
 using bootcamp_store_backend.Infrastucture.Persistance;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,6 +32,7 @@ if (builder.Environment.IsDevelopment())
 }
 
 var app = builder.Build();
+ConfigureExceptionHandler(app);
 
 if (builder.Environment.IsDevelopment())
 {
@@ -53,3 +55,28 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+static void ConfigureExceptionHandler(WebApplication app)
+{
+    app.UseExceptionHandler(errorApp =>
+    {
+        errorApp.Run(async context =>
+        {
+            IExceptionHandlerFeature? exceptionHandlerPathFeature =
+                context.Features.Get<IExceptionHandlerFeature>();
+            var logger = app.Services.GetRequiredService<ILogger<Program>>();
+
+            if (exceptionHandlerPathFeature?.Error != null)
+            {
+                logger.LogError(exceptionHandlerPathFeature.Error, "An unhandled exception ocurred while processing the request.");
+            }
+            else
+            {
+                logger.LogError("An unhandled exception ocurred while processin the request.");
+            }
+
+            context.Response.StatusCode = 500;
+            await context.Response.WriteAsync("An unhandled exception ocurred while processin the request.");
+        });
+    });
+}

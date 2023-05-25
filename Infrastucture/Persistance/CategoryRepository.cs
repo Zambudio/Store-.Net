@@ -5,8 +5,11 @@ namespace bootcamp_store_backend.Infrastucture.Persistance
 {
     public class CategoryRepository : GenericRepository<Category>, ICategoryRepository
     {
-        public CategoryRepository(StoreContext storeContext) : base(storeContext)
+        private StoreContext _storeContext;
+
+        public CategoryRepository(StoreContext context) : base(context)
         {
+            _storeContext = context;
         }
     }
 }
