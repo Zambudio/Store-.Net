@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace bootcamp_store_backend.Infrastucture.Persistance
 {
-    public class StoreContext:DbContext
+    public class StoreContext : DbContext
     {
         public StoreContext(DbContextOptions<StoreContext> options) : base(options) { }
 
