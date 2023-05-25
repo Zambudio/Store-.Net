@@ -3,6 +3,7 @@ using bootcamp_store_backend.Application.Services;
 using bootcamp_store_backend.Domain.Persistence;
 using bootcamp_store_backend.Infraestructure.Persistence;
 using bootcamp_store_backend.Infrastucture.Persistance;
+using bootcamp_store_backend.Infrastucture.Specs;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +13,7 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IItemService, ItemService>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IItemReposity, ItemRepository>();
+builder.Services.AddScoped(typeof(ISpecificationParser<>), typeof(SpecificationParser<>));
 builder.Services.AddAutoMapper(typeof(CategoryMapperProfile));
 builder.Services.AddAutoMapper(typeof(ItemMapperProfile));
 
